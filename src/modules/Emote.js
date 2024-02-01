@@ -60,7 +60,9 @@ export class Emote {
   }
 
   render() {
-    this.img.style = `transform: translate(${this.pos.x}px, ${this.pos.y}px)`;
+    this.img.style.setProperty("--x", `${this.pos.x}px`);
+    this.img.style.setProperty("--y", `${this.pos.y}px`);
+    // this.img.style = `transform: translate(${this.pos.x}px, ${this.pos.y}px)`;
   }
 
   clear() {
@@ -70,6 +72,7 @@ export class Emote {
   }
 
   addToWall() {
+    this.img.style.setProperty("transform", "translate(var(--x), var(--y))");
     wall.append(this.img);
     this.simulate();
     setTimeout(() => this.fadeOut(), 4000);

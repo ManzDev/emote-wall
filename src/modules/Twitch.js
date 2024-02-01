@@ -15,7 +15,6 @@ export const client = new tmi.Client({
 client.connect();
 
 const clearInactiveEmotes = () => {
-  // emoteList.forEach(emote => emote.clear());
   emoteList = emoteList.filter(emote => emote.live);
   console.log(emoteList);
 };
@@ -23,8 +22,6 @@ const clearInactiveEmotes = () => {
 setInterval(() => clearInactiveEmotes(), 5000);
 
 client.on("message", (channel, tags, message, self) => {
-  const username = tags.username;
-
   if (!tags.emotes) { return; }
 
   const emotes = Object.keys(tags.emotes);
@@ -33,11 +30,9 @@ client.on("message", (channel, tags, message, self) => {
     times: tags.emotes[id].length
   }));
 
-  // console.log(username, emoteDict);
-
   emoteDict.forEach(({ id, times }) => {
     for (let i = 0; i < times; i++) {
-      const x = Math.floor(Math.random() * WIDTH);
+      const x = Math.floor(Math.random() * WIDTH); // TODO: add offset (sticky emotes)
       const y = Math.floor(Math.random() * HEIGHT);
       const emote = new Emote(id, x, y);
       emote.addToWall();
